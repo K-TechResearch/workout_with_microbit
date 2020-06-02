@@ -6,37 +6,30 @@ input.onButtonPressed(Button.A, function () {
     basic.showNumber(1)
     start = input.runningTime()
     end = start + GAMETIME
-    flagSTART = 0
-    tempdiff = 0
+    tempvalue = input.acceleration(Dimension.Strength)
+    i = 0
     while (end > input.runningTime()) {
         countprog()
     }
+    count = Math.round(count / i)
     flagA = 1
-    count = Math.round(count / (GAMETIME / JUDGETIME))
+})
+input.onButtonPressed(Button.B, function () {
+    serial.writeNumber(tempdiff)
+    serial.writeString(",")
 })
 function countprog () {
-    if (flagSTART == 0) {
-        tempvalue = input.acceleration(Dimension.Strength)
-        flagSTART = 1
-        配列.push(tempdiff)
-        basic.pause(JUDGETIME)
-    } else {
-        tempdiff = Math.abs(input.acceleration(Dimension.Strength) - tempvalue)
-        tempvalue = input.acceleration(Dimension.Strength)
-        count += tempdiff
-        MAX = Math.max(MAX, tempdiff)
-        配列.push(tempdiff)
-        basic.pause(JUDGETIME)
-    }
+    basic.pause(JUDGETIME)
+    tempdiff = Math.abs(tempvalue - input.acceleration(Dimension.Strength))
+    count += tempdiff
+    MAX = Math.max(MAX, tempdiff)
+    tempvalue = input.acceleration(Dimension.Strength)
+    i += 1
 }
-input.onButtonPressed(Button.B, function () {
-    serial.writeNumbers(配列)
-})
 let MAX = 0
-let 配列: number[] = []
-let tempvalue = 0
 let tempdiff = 0
-let flagSTART = 0
+let i = 0
+let tempvalue = 0
 let end = 0
 let start = 0
 let flagA = 0
